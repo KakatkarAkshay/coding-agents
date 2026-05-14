@@ -35,15 +35,16 @@ stdenv.mkDerivation {
 
   dontStrip = stdenv.hostPlatform.isDarwin;
 
-  unpackPhase = if isZip then ''
-    runHook preUnpack
-    unzip -q $src
-    runHook postUnpack
-  '' else ''
-    runHook preUnpack
-    tar -xf $src
-    runHook postUnpack
-  '';
+  unpackPhase =
+    if isZip then ''
+      runHook preUnpack
+      unzip -q $src
+      runHook postUnpack
+    '' else ''
+      runHook preUnpack
+      tar -xf $src
+      runHook postUnpack
+    '';
 
   installPhase = ''
     runHook preInstall

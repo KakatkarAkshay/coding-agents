@@ -2,10 +2,11 @@
 
 let
   mkDarwinApp = callPackage ../lib/darwin-app.nix { };
-  version = "0.0.22";
+  version = "0.0.23";
 in
 if stdenv.hostPlatform.isDarwin then
-  mkDarwinApp {
+  mkDarwinApp
+  {
     pname = "t3-code";
     inherit version;
     owner = "pingdotgg";
@@ -20,12 +21,13 @@ if stdenv.hostPlatform.isDarwin then
     };
   }
 else if stdenv.hostPlatform.system == "x86_64-linux" then
-  appimageTools.wrapType2 {
+  appimageTools.wrapType2
+  {
     pname = "t3-code";
     inherit version;
     src = fetchurl {
       url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
-      hash = "sha256-JUlF9G6KkvOy550HwndsnfYQBUlReRWCJUe6cqx/9Xc=";
+      hash = "sha256-qMPSxQuiCwLT0As1foSDqaKoNMoLrjbKbDSwQW56T7g=";
     };
     meta = with lib; {
       description = "T3 Code desktop coding agent app";

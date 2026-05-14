@@ -29,23 +29,23 @@ stdenv.mkDerivation {
   nativeBuildInputs = lib.optionals isZip [ unzip ];
 
   installPhase = ''
-    runHook preInstall
-    mkdir -p $out/Applications $out/bin unpacked
-    ${if isZip then "unzip -q $src -d unpacked" else "tar -xzf $src -C unpacked"}
-    app=$(find unpacked -maxdepth 3 -name '${appName}.app' -type d | head -n1)
-    if [ -z "$app" ]; then
-      echo "Could not find ${appName}.app" >&2
-      find unpacked -maxdepth 3 >&2
-      exit 1
-    fi
-    cp -R "$app" $out/Applications/
-    makeWrapper=$out/bin/${pname}
-    cat > "$makeWrapper" <<EOF
-#!/bin/sh
-exec open "$out/Applications/${appName}.app" --args "\$@"
-EOF
-    chmod +x "$makeWrapper"
-    runHook postInstall
+        runHook preInstall
+        mkdir -p $out/Applications $out/bin unpacked
+        ${if isZip then "unzip -q $src -d unpacked" else "tar -xzf $src -C unpacked"}
+        app=$(find unpacked -maxdepth 3 -name '${appName}.app' -type d | head -n1)
+        if [ -z "$app" ]; then
+          echo "Could not find ${appName}.app" >&2
+          find unpacked -maxdepth 3 >&2
+          exit 1
+        fi
+        cp -R "$app" $out/Applications/
+        makeWrapper=$out/bin/${pname}
+        cat > "$makeWrapper" <<EOF
+    #!/bin/sh
+    exec open "$out/Applications/${appName}.app" --args "\$@"
+    EOF
+        chmod +x "$makeWrapper"
+        runHook postInstall
   '';
 
   meta = {

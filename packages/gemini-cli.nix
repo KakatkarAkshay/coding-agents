@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation {
   pname = "gemini-cli";
-  version = "0.41.0";
+  version = "0.42.0";
 
   src = fetchurl {
-    url = "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.41.0.tgz";
-    hash = "sha512-WPocdkLEXybkmhBPr/MnebsjW7uJ2kmtVIY+zcSh5dlioD8Vyxz/KFn3SpK4NWirYIWvdP/xJbxIUvu6jg9ezA==";
+    url = "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.42.0.tgz";
+    hash = "sha512-LfqKztXeB2hWRVWVmPQdmVnub04LDPoN4fAPep7zCQ84UzLUyFFGymY6Uh25Ffb130Yq20r+hoF/ePdJgz9tbw==";
   };
 
   nativeBuildInputs = [ makeBinaryWrapper ];

@@ -29,43 +29,45 @@
         "t3-code"
       ];
     in
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [ overlay ];
-        };
-        available = builtins.filter (name: pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.${name}) packageNames;
-      in
-      {
-        packages = pkgs.lib.genAttrs available (name: pkgs.${name}) // {
-          default = pkgs.claude-code;
-        };
-
-        apps = pkgs.lib.genAttrs available (name: {
-          type = "app";
-          program = "${pkgs.${name}}/bin/${pkgs.${name}.meta.mainProgram or name}";
-        }) // {
-          default = {
-            type = "app";
-            program = "${pkgs.claude-code}/bin/claude";
+    flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+            overlays = [ overlay ];
           };
-        };
+          available = builtins.filter (name: pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.${name}) packageNames;
+        in
+        {
+          packages = pkgs.lib.genAttrs available (name: pkgs.${name}) // {
+            default = pkgs.claude-code;
+          };
 
-        checks = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
-          pkgs.lib.genAttrs available (name: pkgs.${name})
-        );
+          apps = pkgs.lib.genAttrs available
+            (name: {
+              type = "app";
+              program = "${pkgs.${name}}/bin/${pkgs.${name}.meta.mainProgram or name}";
+            }) // {
+            default = {
+              type = "app";
+              program = "${pkgs.claude-code}/bin/claude";
+            };
+          };
 
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            curl
-            gh
-            jq
-            nixpkgs-fmt
-          ];
-        };
-      }) // {
-        overlays.default = overlay;
-      };
+          checks = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
+            pkgs.lib.genAttrs available (name: pkgs.${name})
+          );
+
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              curl
+              gh
+              jq
+              nixpkgs-fmt
+            ];
+          };
+        }) // {
+      overlays.default = overlay;
+    };
 }
