@@ -17,7 +17,7 @@ if stdenv.hostPlatform.isDarwin then
     license = lib.licenses.unfree;
     sources = {
       aarch64-darwin = { asset = "T3-Code-${version}-arm64.zip"; hash = "sha256-ELXpl9djSt+C8tFFSemG3W1pcvgcctxawBLZARQDRMU="; };
-      x86_64-darwin = { asset = "T3-Code-${version}-x64.zip"; hash = "sha256-sxIzxzmNYGBtu5utzihp3Jd6tCuzkwPD+d64P91LAyg="; };
+      x86_64-darwin = { asset = "T3-Code-${version}-x64.zip"; hash = "sha256-sxIzxzmNYGBtu5utziHp3Jd6tCuzkwPD+d64P91LAyg="; };
     };
   }
 else if stdenv.hostPlatform.system == "x86_64-linux" then
