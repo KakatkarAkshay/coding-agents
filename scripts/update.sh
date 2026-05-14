@@ -139,11 +139,17 @@ update_t3_code() {
   for asset in "T3-Code-$latest-arm64.zip" "T3-Code-$latest-x64.zip" "T3-Code-$latest-x86_64.AppImage"; do
     digest=$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .digest' <<<"$json")
     sri=$(to_sri "$digest")
-    if [ "$asset" = "T3-Code-$latest-x86_64.AppImage" ]; then
-      perl_replace packages/t3-code.nix "T3-Code-\\\$\\{version\\}-x86_64\\.AppImage\";\\n\\s+hash = \"[^\"]+\";" "T3-Code-\${version}-x86_64.AppImage\";\n      hash = \"$sri\";"
-    else
-      perl_replace packages/t3-code.nix "asset = \"$asset\"; hash = \"[^\"]+\";" "asset = \"$asset\"; hash = \"$sri\";"
-    fi
+    case "$asset" in
+      "T3-Code-$latest-arm64.zip")
+        perl_replace packages/t3-code.nix "asset = \"T3-Code-\\\$\\{version\\}-arm64\\.zip\"; hash = \"[^\"]+\";" "asset = \"T3-Code-\${version}-arm64.zip\"; hash = \"$sri\";"
+        ;;
+      "T3-Code-$latest-x64.zip")
+        perl_replace packages/t3-code.nix "asset = \"T3-Code-\\\$\\{version\\}-x64\\.zip\"; hash = \"[^\"]+\";" "asset = \"T3-Code-\${version}-x64.zip\"; hash = \"$sri\";"
+        ;;
+      "T3-Code-$latest-x86_64.AppImage")
+        perl_replace packages/t3-code.nix "T3-Code-\\\$\\{version\\}-x86_64\\.AppImage\";\\n\\s+hash = \"[^\"]+\";" "T3-Code-\${version}-x86_64.AppImage\";\n      hash = \"$sri\";"
+        ;;
+    esac
   done
 }
 
