@@ -3,15 +3,15 @@
 let
   sources = {
     aarch64-darwin = {
-      url = "https://persistent.oaistatic.com/codex-app-prod/Codex-darwin-arm64-26.506.31421.zip";
-      hash = "sha256-E+upxNWpA6fugMrZmhSiDvCBQXuU/J0ERqIuEb3Va+k=";
+      url = "https://persistent.oaistatic.com/codex-app-prod/Codex-darwin-arm64-26.513.20950.zip";
+      hash = "sha256-zSlRaoUJc4eRFbe08qS/oyqaBbfW2Epjj3hlbEmA6Cw=";
     };
   };
   source = sources.${stdenv.hostPlatform.system} or (throw "codex-app is not supported on ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation {
   pname = "codex-app";
-  version = "26.506.31421";
+  version = "26.513.20950";
 
   src = fetchurl {
     inherit (source) url hash;
