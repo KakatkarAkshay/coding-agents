@@ -16,8 +16,8 @@ if stdenv.hostPlatform.isDarwin then
     homepage = "https://github.com/pingdotgg/t3code";
     license = lib.licenses.unfree;
     sources = {
-      aarch64-darwin = { asset = "T3-Code-${version}-arm64.zip"; hash = "sha256-JpRCs7yqgV0ByQIyiCs/RAxi5T5+KrODwZZq/UlC2SA="; };
-      x86_64-darwin = { asset = "T3-Code-${version}-x64.zip"; hash = "sha256-EVcYcMCUlGvuH/wufgt6FAQVbaU3b7S6IMtLUnDrJr4="; };
+      aarch64-darwin = { asset = "T3-Code-${version}-arm64.zip"; hash = "sha256-ELXpl9djSt+C8tFFSemG3W1pcvgcctxawBLZARQDRMU="; };
+      x86_64-darwin = { asset = "T3-Code-${version}-x64.zip"; hash = "sha256-sxIzxzmNYGBtu5utzihp3Jd6tCuzkwPD+d64P91LAyg="; };
     };
   }
 else if stdenv.hostPlatform.system == "x86_64-linux" then
