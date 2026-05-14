@@ -40,6 +40,11 @@ replace_version() {
   perl -0pi -e 's/version = "[^"]+";/version = "'"$version"'";/' "$file"
 }
 
+perl_replace() {
+  local file="$1" pattern="$2" replacement="$3"
+  PATTERN="$pattern" REPLACEMENT="$replacement" perl -0pi -e '$replacement = $ENV{REPLACEMENT}; $replacement =~ s/\\n/\n/g; s/$ENV{PATTERN}/$replacement/g' "$file"
+}
+
 replace_tag_version() {
   local file="$1" version="$2"
   perl -0pi -e 's/tag = "rust-v\$\{version\}";/tag = "rust-v\$\{version\}";/' "$file"
@@ -53,7 +58,7 @@ update_claude_code() {
   replace_version "$file" "$latest"
   for platform in darwin-arm64 darwin-x64 linux-x64 linux-arm64; do
     hash=$(prefetch_claude_code "$latest" "$platform")
-    perl -0pi -e 's/'"$platform"' = "[^"]+";/'"$platform"' = "'"$hash"'";/' "$file"
+    perl_replace "$file" "$platform = \"[^\"]+\";" "$platform = \"$hash\";"
   done
 }
 
@@ -67,7 +72,7 @@ update_codex() {
   for target in aarch64-apple-darwin x86_64-apple-darwin x86_64-unknown-linux-musl aarch64-unknown-linux-musl; do
     digest=$(jq -r --arg name "codex-$target.tar.gz" '.assets[] | select(.name == $name) | .digest' <<<"$json")
     sri=$(to_sri "$digest")
-    perl -0pi -e 's/(target = "'"$target"'"; hash = ")[^"]+(";)/$1'"$sri"'$2/' "$file"
+    perl_replace "$file" "target = \"$target\"; hash = \"[^\"]+\";" "target = \"$target\"; hash = \"$sri\";"
   done
 
   local codex_app_feed codex_app_version codex_app_url codex_app_json codex_app_hash
@@ -77,7 +82,7 @@ update_codex() {
   codex_app_json=$(nix store prefetch-file --json "$codex_app_url")
   codex_app_hash=$(jq -r .hash <<<"$codex_app_json")
   replace_version packages/codex-app.nix "$codex_app_version"
-  perl -0pi -e 's|(url = ")[^"]+(";\n\s+hash = ")[^"]+(";)|$1'"$codex_app_url"'$2'"$codex_app_hash"'$3|' packages/codex-app.nix
+  perl_replace packages/codex-app.nix "url = \"[^\"]+\";\\n\\s+hash = \"[^\"]+\";" "url = \"$codex_app_url\";\n      hash = \"$codex_app_hash\";"
 }
 
 update_opencode() {
@@ -89,7 +94,7 @@ update_opencode() {
   while IFS='|' read -r file asset; do
     digest=$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .digest' <<<"$json")
     sri=$(to_sri "$digest")
-    perl -0pi -e 's/(asset = "'"$asset"'"; hash = ")[^"]+(";)/$1'"$sri"'$2/' "$file"
+    perl_replace "$file" "asset = \"$asset\"; hash = \"[^\"]+\";" "asset = \"$asset\"; hash = \"$sri\";"
   done <<'EOF'
 packages/opencode.nix|opencode-darwin-arm64.zip
 packages/opencode.nix|opencode-darwin-x64.zip
@@ -109,7 +114,7 @@ update_gemini_cli() {
   integrity=$(npm view @google/gemini-cli dist.integrity)
   sri=$(nix hash convert --hash-algo sha512 --to sri "${integrity#sha512-}")
   replace_version packages/gemini-cli.nix "$latest"
-  perl -0pi -e 's|(url = ")[^"]+(";\n\s+hash = ")[^"]+(";)|$1'"$tarball"'$2'"$sri"'$3|' packages/gemini-cli.nix
+  perl_replace packages/gemini-cli.nix "url = \"[^\"]+\";\\n\\s+hash = \"[^\"]+\";" "url = \"$tarball\";\n    hash = \"$sri\";"
 }
 
 update_pi() {
@@ -121,7 +126,7 @@ update_pi() {
   for asset in pi-darwin-arm64.tar.gz pi-darwin-x64.tar.gz pi-linux-x64.tar.gz pi-linux-arm64.tar.gz; do
     digest=$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .digest' <<<"$json")
     sri=$(to_sri "$digest")
-    perl -0pi -e 's/(asset = "'"$asset"'"; hash = ")[^"]+(";)/$1'"$sri"'$2/' packages/pi-coding-agent.nix
+    perl_replace packages/pi-coding-agent.nix "asset = \"$asset\"; hash = \"[^\"]+\";" "asset = \"$asset\"; hash = \"$sri\";"
   done
 }
 
@@ -134,7 +139,11 @@ update_t3_code() {
   for asset in "T3-Code-$latest-arm64.zip" "T3-Code-$latest-x64.zip" "T3-Code-$latest-x86_64.AppImage"; do
     digest=$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .digest' <<<"$json")
     sri=$(to_sri "$digest")
-    perl -0pi -e 's/(asset = "'"$asset"'"; hash = ")[^"]+(";)/$1'"$sri"'$2/; s/(T3-Code-\$\{version\}-x86_64\.AppImage";\n\s+hash = ")[^"]+(";)/$1'"$sri"'$2/' packages/t3-code.nix
+    if [ "$asset" = "T3-Code-$latest-x86_64.AppImage" ]; then
+      perl_replace packages/t3-code.nix "T3-Code-\\\$\\{version\\}-x86_64\\.AppImage\";\\n\\s+hash = \"[^\"]+\";" "T3-Code-\${version}-x86_64.AppImage\";\n      hash = \"$sri\";"
+    else
+      perl_replace packages/t3-code.nix "asset = \"$asset\"; hash = \"[^\"]+\";" "asset = \"$asset\"; hash = \"$sri\";"
+    fi
   done
 }
 
