@@ -2,10 +2,10 @@
 
 let
   mkDarwinApp = callPackage ../lib/darwin-app.nix { };
-  version = "1.15.0";
+  version = "1.15.1";
   linuxSources = {
-    x86_64-linux = { asset = "opencode-desktop-linux-x86_64.AppImage"; hash = "sha256-eqcwdZ0wvfe4hlY9VsOzXwPeBO3MMr9FMyda5PyrEiw="; };
-    aarch64-linux = { asset = "opencode-desktop-linux-arm64.AppImage"; hash = "sha256-sqshbN+j2UtPyv5XocgPN292nzlttRL5VXoAoln60Pc="; };
+    x86_64-linux = { asset = "opencode-desktop-linux-x86_64.AppImage"; hash = "sha256-EJnhb4xmdc+pABWklmBg7AGRSWhbAUPchbIn2PLXKHQ="; };
+    aarch64-linux = { asset = "opencode-desktop-linux-arm64.AppImage"; hash = "sha256-Nu9GsvTElzGKY+yTmqjfOnfKC5r7uzo1gLZ8vSNsxSs="; };
   };
   linuxSource = linuxSources.${stdenv.hostPlatform.system} or null;
 in
@@ -21,8 +21,8 @@ if stdenv.hostPlatform.isDarwin then
     homepage = "https://opencode.ai";
     license = lib.licenses.mit;
     sources = {
-      aarch64-darwin = { asset = "opencode-desktop-mac-arm64.app.tar.gz"; hash = "sha256-ZpZ4mzEVR+OFTL6WQ+Fej8GcD9ZnAwsJfY4J+aC85j8="; };
-      x86_64-darwin = { asset = "opencode-desktop-mac-x64.app.tar.gz"; hash = "sha256-NUXmpc+C6rCuEvtRjPyDDulgzxtGarOb1GhQYppxkgE="; };
+      aarch64-darwin = { asset = "opencode-desktop-mac-arm64.app.tar.gz"; hash = "sha256-VVSG30xaKrl1MaxKl8nhoCCpQSu9pSh0N8+tSu4TziM="; };
+      x86_64-darwin = { asset = "opencode-desktop-mac-x64.app.tar.gz"; hash = "sha256-cUQ/zpqHBsmGWiZVDp0xpyLqTqkwvemYXcYohVTU2jI="; };
     };
   }
 else if linuxSource != null then
