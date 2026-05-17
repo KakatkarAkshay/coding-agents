@@ -5,7 +5,7 @@ let
 in
 mkArchivePackage {
   pname = "opencode";
-  version = "1.15.3";
+  version = "1.15.4";
   owner = "anomalyco";
   repo = "opencode";
   binaryName = "opencode";
@@ -13,9 +13,9 @@ mkArchivePackage {
   homepage = "https://opencode.ai";
   license = lib.licenses.mit;
   sources = {
-    aarch64-darwin = { asset = "opencode-darwin-arm64.zip"; hash = "sha256-UIeFOiasq3c59nZTLq8m8UZDRaDd2WMx5JC4bevLS6I="; };
-    x86_64-darwin = { asset = "opencode-darwin-x64.zip"; hash = "sha256-0HuZlvW9FJ1W+H5Fbq/KOJBgIYriFAA9AomjcyHVEWA="; };
-    x86_64-linux = { asset = "opencode-linux-x64.tar.gz"; hash = "sha256-+K6GeMm8zbr5l3fzb/LV7+aJ1HM4Ty6UuE1s2iVtJUA="; };
-    aarch64-linux = { asset = "opencode-linux-arm64.tar.gz"; hash = "sha256-Tyo+MEDG3GcXlhsQNOeuZRlAxEkGXTFsbG4XpLeCk9o="; };
+    aarch64-darwin = { asset = "opencode-darwin-arm64.zip"; hash = "sha256-IPt66aa5h2gyhQt4mTBMOCYaxTdhy3eiBSvkmwL9J+Y="; };
+    x86_64-darwin = { asset = "opencode-darwin-x64.zip"; hash = "sha256-oqyHRZSZYEZymYiUNaA9DeFxnytDHUZDHUpeEGu1yNo="; };
+    x86_64-linux = { asset = "opencode-linux-x64.tar.gz"; hash = "sha256-8HNJKNXfNgd39R+AffGLKMHQwAb4Bq0L01okIPq9CDU="; };
+    aarch64-linux = { asset = "opencode-linux-arm64.tar.gz"; hash = "sha256-l48HDigMNupv2aA9ZPgTAo28JDQHetXLauzzdCPhVtc="; };
   };
 }
