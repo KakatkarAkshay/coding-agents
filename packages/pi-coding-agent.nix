@@ -5,7 +5,7 @@ let
 in
 mkArchivePackage {
   pname = "pi-coding-agent";
-  version = "0.75.0";
+  version = "0.75.1";
   owner = "earendil-works";
   repo = "pi";
   binaryName = "pi";
@@ -14,9 +14,9 @@ mkArchivePackage {
   homepage = "https://github.com/earendil-works/pi";
   license = lib.licenses.mit;
   sources = {
-    aarch64-darwin = { asset = "pi-darwin-arm64.tar.gz"; hash = "sha256-5YRdh150cf6lGv3L8mYVXXACsMqsdVbAj4/jiScKHYc="; };
-    x86_64-darwin = { asset = "pi-darwin-x64.tar.gz"; hash = "sha256-vTN639DtycbSgRUwIHFM1cUevWcw15zM4uPiRHxlBog="; };
-    x86_64-linux = { asset = "pi-linux-x64.tar.gz"; hash = "sha256-xj3pIqatu1AxrgRvw0HOFdUQIYRgI7xJLf1yVSq3sfA="; };
-    aarch64-linux = { asset = "pi-linux-arm64.tar.gz"; hash = "sha256-7s3PaNmBhQji8ritaNkOWvp5IknV8jMSjklUTh5NyS0="; };
+    aarch64-darwin = { asset = "pi-darwin-arm64.tar.gz"; hash = "sha256-i/df5S0VQCWWj/71h0x/xn7GWDXZOmVTxrgE0fAiKuk="; };
+    x86_64-darwin = { asset = "pi-darwin-x64.tar.gz"; hash = "sha256-TZQ5mxmMjAHurqqtsf86HGKPLFppq3yQ1MBLxrV2zA0="; };
+    x86_64-linux = { asset = "pi-linux-x64.tar.gz"; hash = "sha256-dukdMq8S56alXeOxDr84YRzHNB+ZTFh24W5F6Q18rF4="; };
+    aarch64-linux = { asset = "pi-linux-arm64.tar.gz"; hash = "sha256-+oBTrsx1v7gEUgXUjmwPSyOGH0jYNREZGVzaCsBJKzs="; };
   };
 }
