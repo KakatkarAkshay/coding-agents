@@ -16,11 +16,11 @@ Fast-moving macOS-first Nix packages for coding agents, maintained separately fr
 ## Usage
 
 ```bash
-nix run github:KakatkarAkshay/coding-agents#claude-code
-nix run github:KakatkarAkshay/coding-agents#codex
-nix run github:KakatkarAkshay/coding-agents#opencode
-nix run github:KakatkarAkshay/coding-agents#gemini-cli
-nix run github:KakatkarAkshay/coding-agents#pi-coding-agent
+nix run github:abyssal-labs/coding-agents#claude-code
+nix run github:abyssal-labs/coding-agents#codex
+nix run github:abyssal-labs/coding-agents#opencode
+nix run github:abyssal-labs/coding-agents#gemini-cli
+nix run github:abyssal-labs/coding-agents#pi-coding-agent
 ```
 
 ## Updates
