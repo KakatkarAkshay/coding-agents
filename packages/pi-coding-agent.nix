@@ -15,15 +15,7 @@ mkArchivePackage {
   license = lib.licenses.mit;
   extraInstall = ''
     candidateDir=$(dirname "$candidate")
-    cp -R \
-      "$candidateDir"/package.json \
-      "$candidateDir"/docs \
-      "$candidateDir"/assets \
-      "$candidateDir"/theme \
-      "$candidateDir"/export-html \
-      "$candidateDir"/examples \
-      "$candidateDir"/photon_rs_bg.wasm \
-      "$out/bin/"
+    cp -R "$candidateDir"/. "$out/bin/"
   '';
   sources = {
     aarch64-darwin = { asset = "pi-darwin-arm64.tar.gz"; hash = "sha256-LRZmjWJoBepz1DCxeLIvU0EVLHwTVExG+J1oBY4Lv4E="; };
