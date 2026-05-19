@@ -55,9 +55,7 @@
             };
           };
 
-          checks = pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
-            pkgs.lib.genAttrs available (name: pkgs.${name})
-          );
+          checks = pkgs.lib.genAttrs available (name: pkgs.${name});
 
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
